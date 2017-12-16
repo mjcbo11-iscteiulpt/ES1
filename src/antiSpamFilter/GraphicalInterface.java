@@ -151,7 +151,7 @@ public class GraphicalInterface{
 		//criar lista de Pesos Nao Editaveis
 		listaDePesosNaoEditaveis = new DefaultListModel();
 		
-		//Passar para a lista o que est� no ficheiro
+		//Passar para a lista o que está no ficheiro
 		ReadFile(caminhoRules.getText(),inicio);
 		inicio=false;
 
@@ -173,20 +173,20 @@ public class GraphicalInterface{
 		}
 		
 		//criar matriz com os 2 vetores
-		String[][] matrizPreTabela = new String[pesos.length][2];
-		String[][] matrizPreTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
+		String[][] matrizPréTabela = new String[pesos.length][2];
+		String[][] matrizPréTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
 		for(int i = 0; i< pesos.length;i++) {
-			matrizPreTabela[i][0]=regras[i];
-			matrizPreTabela[i][1]=pesos[i];
-			matrizPreTabelaNaoEditavel[i][0]=regras[i];
-			matrizPreTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
+			matrizPréTabela[i][0]=regras[i];
+			matrizPréTabela[i][1]=pesos[i];
+			matrizPréTabelaNaoEditavel[i][0]=regras[i];
+			matrizPréTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
 		}
 		
 		// criar vetor com os nomes das colunas da TableModel
 		Object[] nome = {"Regras","Pesos"};
 		
-		//criar TableModel com pesos edit�veis
-		model = new DefaultTableModel(matrizPreTabela,nome) {
+		//criar TableModel com pesos editáveis
+		model = new DefaultTableModel(matrizPréTabela,nome) {
 			boolean[] canEdit = new boolean[]{
                     false,true
             };
@@ -200,7 +200,7 @@ public class GraphicalInterface{
 		TabelaPesosEditaveis.setBackground(new Color(165,255,165));
 		
 		//criar segunda JTable para pesos nao editaveis
-		TabelaPesosNaoEditaveis = new JTable(matrizPreTabelaNaoEditavel,nome);
+		TabelaPesosNaoEditaveis = new JTable(matrizPréTabelaNaoEditavel,nome);
 		TabelaPesosNaoEditaveis.setDefaultEditor(Object.class,null);
 		//adicionar cor vermelha ao fundo
 		TabelaPesosNaoEditaveis.setBackground(new Color(255,183,183));
@@ -209,8 +209,8 @@ public class GraphicalInterface{
 	
 	
 	private void adicionarCoisas() {
-		painelDePaineis.add("Pesos Editaveis", painelDeColunas);
-		painelDePaineis.add("Pesos N�o Editaveis", painelDeColunasNaoEditaveis);		
+		painelDePaineis.add("Pesos Editáveis", painelDeColunas);
+		painelDePaineis.add("Pesos Não Editaveis", painelDeColunasNaoEditaveis);		
 		painelCF.add(labelCaminhoRules);
 		painelCF.add(caminhoRules);
 		painelSpam.add(labelCaminhoSpam);
@@ -244,14 +244,37 @@ public class GraphicalInterface{
 	}
 
 	private void AdicionarListeners() {
-		textFieldListeners();		
+		textFieldListeners();
+		labelsListener();
+		JTableListener();
+		
 	}
 	
 	
 	private void textFieldListeners() {
 		caminhoRulesListener();				
 	}
-		
+	
+	
+	private void labelsListener() {
+		calculo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				labelFN.setText("FN = "+Calcular(listaDeRegras,listaDePesos,caminhoHam.getText()));
+				labelFP.setText("FP = "+Calcular(listaDeRegras,listaDePesos,caminhoSpam.getText()));				
+			}
+		});		
+	}
+	
+	private void JTableListener() {
+		TabelaPesosEditaveis.getModel().addTableModelListener(new TableModelListener() {
+			public void tableChanged(TableModelEvent e) {
+				System.out.println("Entrou");
+				int row=TabelaPesosEditaveis.getSelectedRow();
+				String value=(String)TabelaPesosEditaveis.getValueAt(row, 1);
+				listaDePesos.set(row, value);
+			}
+		});
+	}
 	
 	
 	private void CarregarFicheiro(String file,ArrayList<String[]> lista) {
@@ -297,6 +320,66 @@ public class GraphicalInterface{
 	}
 
 	
+	
+
+	
+	protected int Calcular(DefaultListModel<String> listaDeRegras2, DefaultListModel<String> listaDePesos2, String ficheiro) {		
+		FileReader fr = null;
+        BufferedReader br = null;
+        int Falsos=0;        
+        try {            
+            fr = new FileReader (ficheiro);
+            br = new BufferedReader(fr);            
+            
+            String line;
+            String[] splitted;
+            List<String> lista;
+            double total=0;
+            while((line=br.readLine())!=null) {
+                splitted = line.split("\\s+");
+                lista= new LinkedList<String>(Arrays.asList(splitted));
+                lista.remove(0);
+                for(String regra:lista) {
+                	for(int i=0 ; i<listaDeRegras.getSize();i++) {
+                		if(regra.equals(listaDeRegras.getElementAt(i))) {
+                			if(painelDePaineis.getSelectedIndex()==0) {
+                				total+=Double.parseDouble((String) listaDePesos.getElementAt(i));
+                			}else {
+                				total+=Double.parseDouble((String) listaDePesosNaoEditaveis.getElementAt(i));
+                			}
+                		}
+                	}                	
+                }
+                if(ficheiro.equals(caminhoHam.getText())) {
+	                if(total>5.0) {
+	                	Falsos++;
+	                	System.out.println("mais um ponto "+total);
+	                }
+                }else if(ficheiro.equals(caminhoSpam.getText())) {
+                	if(total<5.0) {
+	                	Falsos++;
+	                	System.out.println("mais um ponto "+total);
+	                }
+                }
+                total=0;
+            }                  
+        } catch(Exception e) {            
+        	e.printStackTrace();
+        } finally {
+            try{
+                if( null != fr ) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+		return Falsos;
+	}
+	
+	
+
+	
 	private void caminhoRulesListener() {
 		caminhoRules.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -340,7 +423,7 @@ public class GraphicalInterface{
             }            
         } catch(Exception e) {
             listaDeRegras.removeAllElements();
-            listaDeRegras.addElement("Este caminho n�o Existe!!!");
+            listaDeRegras.addElement("Este caminho não Existe!!!");
             listaDePesos.addElement(" ");
             listaDePesosNaoEditaveis.addElement(" ");
         } finally {
