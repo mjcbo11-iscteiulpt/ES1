@@ -173,20 +173,20 @@ public class GraphicalInterface{
 		}
 		
 		//criar matriz com os 2 vetores
-		String[][] matrizPréTabela = new String[pesos.length][2];
-		String[][] matrizPréTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
+		String[][] matrizPreTabela = new String[pesos.length][2];
+		String[][] matrizPreTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
 		for(int i = 0; i< pesos.length;i++) {
-			matrizPréTabela[i][0]=regras[i];
-			matrizPréTabela[i][1]=pesos[i];
-			matrizPréTabelaNaoEditavel[i][0]=regras[i];
-			matrizPréTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
+			matrizPreTabela[i][0]=regras[i];
+			matrizPreTabela[i][1]=pesos[i];
+			matrizPreTabelaNaoEditavel[i][0]=regras[i];
+			matrizPreTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
 		}
 		
 		// criar vetor com os nomes das colunas da TableModel
 		Object[] nome = {"Regras","Pesos"};
 		
 		//criar TableModel com pesos editáveis
-		model = new DefaultTableModel(matrizPréTabela,nome) {
+		model = new DefaultTableModel(matrizPreTabela,nome) {
 			boolean[] canEdit = new boolean[]{
                     false,true
             };
@@ -200,7 +200,7 @@ public class GraphicalInterface{
 		TabelaPesosEditaveis.setBackground(new Color(165,255,165));
 		
 		//criar segunda JTable para pesos nao editaveis
-		TabelaPesosNaoEditaveis = new JTable(matrizPréTabelaNaoEditavel,nome);
+		TabelaPesosNaoEditaveis = new JTable(matrizPreTabelaNaoEditavel,nome);
 		TabelaPesosNaoEditaveis.setDefaultEditor(Object.class,null);
 		//adicionar cor vermelha ao fundo
 		TabelaPesosNaoEditaveis.setBackground(new Color(255,183,183));
