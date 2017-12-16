@@ -76,7 +76,8 @@ public class GraphicalInterface{
 	public GraphicalInterface() {		
 		AbrirInterface();
 		AdicionarListeners();		
-		
+		CarregarFicheiro(caminhoHam.getText(),listaDeHam);
+		CarregarFicheiro(caminhoSpam.getText(),listaDeSpam);
 		
 	}
 	
@@ -115,6 +116,7 @@ public class GraphicalInterface{
 	private void criarBotoes() {
 		calculo = new JButton("Calcular");		
 		gerar = new JButton("Gerar");
+
 	}
 	
 	
@@ -149,7 +151,8 @@ public class GraphicalInterface{
 		//criar lista de Pesos Nao Editaveis
 		listaDePesosNaoEditaveis = new DefaultListModel();
 		
-		
+		//Passar para a lista o que está no ficheiro
+		ReadFile(caminhoRules.getText(),inicio);
 		inicio=false;
 
 	}
@@ -158,9 +161,9 @@ public class GraphicalInterface{
 	private void adicionarListasModelo() {
 		System.out.println("adicionar Listas Modelo");
 		//criar vetores que vao guardar regras e pesos
-		String[] pesos = new String[335];
-		String[] regras = new String[335];
-		String[] pesosNaoEditaveis = new String[335];
+		String[] pesos = new String[listaDePesos.getSize()];
+		String[] regras = new String[listaDeRegras.getSize()];
+		String[] pesosNaoEditaveis = new String[listaDePesosNaoEditaveis.getSize()];
 		
 		//atribuir aos vetores as regras e pesos
 		for(int i = 0; i< listaDePesos.getSize();i++) {
@@ -170,20 +173,20 @@ public class GraphicalInterface{
 		}
 		
 		//criar matriz com os 2 vetores
-		String[][] matrizPréTabela = new String[pesos.length][2];
-		String[][] matrizPréTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
+		String[][] matrizPreTabela = new String[pesos.length][2];
+		String[][] matrizPreTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
 		for(int i = 0; i< pesos.length;i++) {
-			matrizPréTabela[i][0]=regras[i];
-			matrizPréTabela[i][1]=pesos[i];
-			matrizPréTabelaNaoEditavel[i][0]=regras[i];
-			matrizPréTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
+			matrizPreTabela[i][0]=regras[i];
+			matrizPreTabela[i][1]=pesos[i];
+			matrizPreTabelaNaoEditavel[i][0]=regras[i];
+			matrizPreTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
 		}
 		
 		// criar vetor com os nomes das colunas da TableModel
 		Object[] nome = {"Regras","Pesos"};
 		
 		//criar TableModel com pesos editáveis
-		model = new DefaultTableModel(matrizPréTabela,nome) {
+		model = new DefaultTableModel(matrizPreTabela,nome) {
 			boolean[] canEdit = new boolean[]{
                     false,true
             };
@@ -197,7 +200,7 @@ public class GraphicalInterface{
 		TabelaPesosEditaveis.setBackground(new Color(165,255,165));
 		
 		//criar segunda JTable para pesos nao editaveis
-		TabelaPesosNaoEditaveis = new JTable(matrizPréTabelaNaoEditavel,nome);
+		TabelaPesosNaoEditaveis = new JTable(matrizPreTabelaNaoEditavel,nome);
 		TabelaPesosNaoEditaveis.setDefaultEditor(Object.class,null);
 		//adicionar cor vermelha ao fundo
 		TabelaPesosNaoEditaveis.setBackground(new Color(255,183,183));
@@ -206,7 +209,7 @@ public class GraphicalInterface{
 	
 	
 	private void adicionarCoisas() {
-		painelDePaineis.add("Pesos Editáveis", painelDeColunas);
+		painelDePaineis.add("Pesos Editaveis", painelDeColunas);
 		painelDePaineis.add("Pesos Não Editaveis", painelDeColunasNaoEditaveis);		
 		painelCF.add(labelCaminhoRules);
 		painelCF.add(caminhoRules);
@@ -251,6 +254,34 @@ public class GraphicalInterface{
 		
 	
 	
+	private void CarregarFicheiro(String file,ArrayList<String[]> lista) {
+		
+		FileReader fr = null;
+        BufferedReader br = null;          
+        try { 
+            fr = new FileReader (file);
+            br = new BufferedReader(fr);           
+            String line;
+            String[] splitted; 
+            String[] splittedWithoutFirst;
+            while((line=br.readLine())!=null) {
+            	splitted = line.split("\\s+");
+            	splittedWithoutFirst = Arrays.copyOfRange(splitted, 1, splitted.length);
+                lista.add(splittedWithoutFirst);                  
+                }} catch(Exception e) {            
+                	e.printStackTrace();
+                } finally {
+                    try{
+                        if( null != fr ) {
+                            fr.close();
+                        }
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                }         
+        
+        }
+	
 	
 	protected void adicionarNaInterface() {
 		System.out.println("Adicionar na Interface");
@@ -279,7 +310,50 @@ public class GraphicalInterface{
 	}
 
 	
-	
+	private void ReadFile( String ficheiro, Boolean inicio) {
+		FileReader fr = null;
+        BufferedReader br = null;
+        listaDeRegras.removeAllElements();
+        try {
+        	labelFP.setText("Label FP");
+    		labelFN.setText("Label FN");
+            fr = new FileReader (ficheiro);
+            br = new BufferedReader(fr);            
+            
+            String line;
+            String[] lineSPlitted;
+            while((line=br.readLine())!=null) {
+            	lineSPlitted=line.split("\\s+");	            	
+                listaDeRegras.addElement(lineSPlitted[0]); 
+                if(inicio==true) {
+	                if(lineSPlitted.length>1) {
+	                listaDePesos.addElement(lineSPlitted[1]);
+	                listaDePesosNaoEditaveis.addElement(lineSPlitted[1]);
+	                }else {
+	                	listaDePesos.addElement("0");
+	                	listaDePesosNaoEditaveis.addElement("0");
+	                }
+                }else {
+	                listaDePesosNaoEditaveis.addElement(lineSPlitted[1]); 
+
+                }
+            }            
+        } catch(Exception e) {
+            listaDeRegras.removeAllElements();
+            listaDeRegras.addElement("Este caminho não Existe!!!");
+            listaDePesos.addElement(" ");
+            listaDePesosNaoEditaveis.addElement(" ");
+        } finally {
+            try{
+                if( null != fr ) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+	}
 
 	
 	private void definirLayouts() {
