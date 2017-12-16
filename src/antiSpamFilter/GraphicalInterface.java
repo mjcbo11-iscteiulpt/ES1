@@ -1,24 +1,44 @@
 package antiSpamFilter;
 
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.uma.jmetal.solution.DoubleSolution;
 
 
 public class GraphicalInterface{
@@ -45,7 +65,9 @@ public class GraphicalInterface{
 	DefaultListModel<String> listaDeRegras ;
 	DefaultListModel<String> listaDePesos ;
 	DefaultListModel<String> listaDePesosNaoEditaveis ;
-	DefaultTableModel model;	
+	DefaultTableModel model;
+	JTable TabelaPesosEditaveis;
+	JTable TabelaPesosNaoEditaveis;	
 	ArrayList<String[]> listaDeHam;
 	ArrayList<String[]> listaDeSpam;
 	Boolean inicio=true;
@@ -54,21 +76,28 @@ public class GraphicalInterface{
 	public GraphicalInterface() {		
 		AbrirInterface();
 		AdicionarListeners();		
+		
+		
 	}
 	
+		
 	private void AbrirInterface() {
 		criarFrame();
 		criarPaineis();
 		criarBotoes();
 		criarLabels();
-		criarTextFields();		
+		criarTextFields();
+		criarListasModelo();
+		adicionarListasModelo();
 		adicionarCoisas();
 		setVisible();
 	}
 	
+	
 	private void criarFrame() {
 		frame = new JFrame("AntiSpamFilterForProfessionalMailbox");		
 	}
+	
 	
 	private void criarPaineis() {
 		painelDeColunas = new JPanel();
@@ -81,6 +110,7 @@ public class GraphicalInterface{
 		painelHam = new JPanel();		
 		definirLayouts();		
 	}
+	
 	
 	private void criarBotoes() {
 		calculo = new JButton("Calcular");		
@@ -104,9 +134,80 @@ public class GraphicalInterface{
 
 	}
 	
+	
+	
+	
+	private void criarListasModelo() {
+		System.out.println("criar Listas Modelo");
+		//criar lista de Regras
+		listaDeRegras = new DefaultListModel();
+				
+		if(inicio) {
+		//criar lista de Pesos
+		listaDePesos = new DefaultListModel();
+		}
+		//criar lista de Pesos Nao Editaveis
+		listaDePesosNaoEditaveis = new DefaultListModel();
+		
+		
+		inicio=false;
+
+	}
+	
+	
+	private void adicionarListasModelo() {
+		System.out.println("adicionar Listas Modelo");
+		//criar vetores que vao guardar regras e pesos
+		String[] pesos = new String[335];
+		String[] regras = new String[335];
+		String[] pesosNaoEditaveis = new String[335];
+		
+		//atribuir aos vetores as regras e pesos
+		for(int i = 0; i< listaDePesos.getSize();i++) {
+			pesos[i]=String.valueOf(listaDePesos.getElementAt(i));
+			regras[i]=String.valueOf(listaDeRegras.getElementAt(i));
+			pesosNaoEditaveis[i]=String.valueOf(listaDePesosNaoEditaveis.getElementAt(i));
+		}
+		
+		//criar matriz com os 2 vetores
+		String[][] matrizPréTabela = new String[pesos.length][2];
+		String[][] matrizPréTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
+		for(int i = 0; i< pesos.length;i++) {
+			matrizPréTabela[i][0]=regras[i];
+			matrizPréTabela[i][1]=pesos[i];
+			matrizPréTabelaNaoEditavel[i][0]=regras[i];
+			matrizPréTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
+		}
+		
+		// criar vetor com os nomes das colunas da TableModel
+		Object[] nome = {"Regras","Pesos"};
+		
+		//criar TableModel com pesos editáveis
+		model = new DefaultTableModel(matrizPréTabela,nome) {
+			boolean[] canEdit = new boolean[]{
+                    false,true
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+		};		
+		//criar JTable		
+		TabelaPesosEditaveis = new JTable(model);
+		//adicionar a cor verde ao fundo da JTable
+		TabelaPesosEditaveis.setBackground(new Color(165,255,165));
+		
+		//criar segunda JTable para pesos nao editaveis
+		TabelaPesosNaoEditaveis = new JTable(matrizPréTabelaNaoEditavel,nome);
+		TabelaPesosNaoEditaveis.setDefaultEditor(Object.class,null);
+		//adicionar cor vermelha ao fundo
+		TabelaPesosNaoEditaveis.setBackground(new Color(255,183,183));
+		
+	}
+	
+	
 	private void adicionarCoisas() {
-		painelDePaineis.add("Pesos EditÃ¡veis", painelDeColunas);
-		painelDePaineis.add("Pesos NÃ£o Editaveis", painelDeColunasNaoEditaveis);		
+		painelDePaineis.add("Pesos Editáveis", painelDeColunas);
+		painelDePaineis.add("Pesos Não Editaveis", painelDeColunasNaoEditaveis);		
 		painelCF.add(labelCaminhoRules);
 		painelCF.add(caminhoRules);
 		painelSpam.add(labelCaminhoSpam);
@@ -122,10 +223,15 @@ public class GraphicalInterface{
 		painelDeBotoes.add(gerar);
 		frame.add(painelDePaineis,BorderLayout.CENTER);
 		frame.add(painelDeCaminhos, BorderLayout.NORTH);
-		frame.add(painelDeBotoes, BorderLayout.SOUTH);		
+		frame.add(painelDeBotoes, BorderLayout.SOUTH);
+		//adicionar JTable ao painel
+		painelDeColunasNaoEditaveis.add(new JScrollPane(TabelaPesosNaoEditaveis));
+		//adicionar JTable ao painel 
+		painelDeColunas.add(new JScrollPane(TabelaPesosEditaveis));	
 		listaDeHam = new ArrayList<String[]>();
 		listaDeSpam = new ArrayList<String[]>();
 	}
+	
 	
 	private void setVisible() {
 		frame.setSize(800,400);
@@ -138,19 +244,44 @@ public class GraphicalInterface{
 		textFieldListeners();		
 	}
 	
+	
 	private void textFieldListeners() {
 		caminhoRulesListener();				
 	}
 		
 	
+	
+	
+	protected void adicionarNaInterface() {
+		System.out.println("Adicionar na Interface");
+		//adicionar JTable ao painel
+		painelDeColunasNaoEditaveis.removeAll();
+		painelDeColunasNaoEditaveis.add(new JScrollPane(TabelaPesosNaoEditaveis));
+		//adicionar JTable ao painel 
+		painelDeColunas.removeAll();
+		painelDeColunas.add(new JScrollPane(TabelaPesosEditaveis));
+		frame.revalidate();
+		frame.repaint();
+		
+	}
+
+	
 	private void caminhoRulesListener() {
 		caminhoRules.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Caminho CF mudado para "+"\""+caminhoRules.getText()+"\"");					
+				System.out.println("Caminho CF mudado para "+"\""+caminhoRules.getText()+"\"");	
+				inicio=true;
+				criarListasModelo();
+				adicionarListasModelo();
+				adicionarNaInterface();
 			}
 		});		
 	}
 
+	
+	
+
+	
 	private void definirLayouts() {
 		frame.setLayout(new BorderLayout());
 		painelDeCaminhos.setLayout(new GridLayout(1,3,20,10));
@@ -159,6 +290,11 @@ public class GraphicalInterface{
 		painelDeColunasNaoEditaveis.setLayout(new GridLayout(1,1));		
 	}
 
+	
+	
+		
+
+	
 	public static void main(String [] args){
 		GraphicalInterface interfaceGrafica = new GraphicalInterface();
 	}
