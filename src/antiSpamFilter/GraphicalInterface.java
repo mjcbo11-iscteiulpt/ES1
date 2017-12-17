@@ -70,6 +70,7 @@ public class GraphicalInterface{
 	JTable TabelaPesosNaoEditaveis;	
 	ArrayList<String[]> listaDeHam;
 	ArrayList<String[]> listaDeSpam;
+	AntiSpamFilterProblem JMetal;	
 	Boolean inicio=true;
 	
 	
@@ -246,6 +247,7 @@ public class GraphicalInterface{
 	private void AdicionarListeners() {
 		textFieldListeners();
 		labelsListener();
+		gerarListener();
 		JTableListener();
 		
 	}
@@ -264,6 +266,19 @@ public class GraphicalInterface{
 			}
 		});		
 	}
+	
+	
+	
+	
+	
+	private void gerarListener() {
+		gerar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				JMetal = new AntiSpamFilterProblem();
+			}
+		});	
+	}
+	
 	
 	private void JTableListener() {
 		TabelaPesosEditaveis.getModel().addTableModelListener(new TableModelListener() {

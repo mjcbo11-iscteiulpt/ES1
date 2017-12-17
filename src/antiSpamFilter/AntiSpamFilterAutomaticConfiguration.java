@@ -21,10 +21,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AntiSpamFilterAutomaticConfiguration {
-  private static final int INDEPENDENT_RUNS = 5 ;
+import javax.swing.DefaultListModel;
 
-  public static void main(String[] args) throws IOException {
+public class AntiSpamFilterAutomaticConfiguration {
+  private  final int INDEPENDENT_RUNS = 1 ;
+ 
+
+  public AntiSpamFilterAutomaticConfiguration() {
     String experimentBaseDirectory = "experimentBaseDirectory";
 
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
@@ -47,14 +50,20 @@ public class AntiSpamFilterAutomaticConfiguration {
             .build();
 
     new ExecuteAlgorithms<>(experiment).run();
-    new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();
-    new ComputeQualityIndicators<>(experiment).run() ;
-    new GenerateLatexTablesWithStatistics(experiment).run() ;
-    new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run() ;
+    
+    try {
+		new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();
+		new ComputeQualityIndicators<>(experiment).run() ;
+		new GenerateLatexTablesWithStatistics(experiment).run() ;
+		new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run() ;
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
     
   }
 
-  static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
+  List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
           List<ExperimentProblem<DoubleSolution>> problemList) {
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
 
@@ -63,7 +72,7 @@ public class AntiSpamFilterAutomaticConfiguration {
               problemList.get(i).getProblem(),
               new SBXCrossover(1.0, 5),
               new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
-              .setMaxEvaluations(25000)
+              .setMaxEvaluations(3000)
               .setPopulationSize(100)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
