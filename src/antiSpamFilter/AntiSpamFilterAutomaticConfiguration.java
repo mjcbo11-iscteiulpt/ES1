@@ -28,6 +28,7 @@ public class AntiSpamFilterAutomaticConfiguration {
  
 
   public AntiSpamFilterAutomaticConfiguration(Integer numberOfVariables,ArrayList<String[]> listaDeHam,ArrayList<String[]> listaDeSpam,DefaultListModel listaDeRegras) {
+
     String experimentBaseDirectory = "experimentBaseDirectory";
 
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
