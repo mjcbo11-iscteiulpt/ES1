@@ -49,7 +49,7 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	      mapa.put((String)listaDeRegras.getElementAt(i), solution.getVariableValue(i));
 	    }
 	    
-	    int[] resposta = new int[2];	    
+	    int[] resposta = Calcular2();	    
 	    
 	    
 	    solution.setObjective(0, resposta[0]);
@@ -57,5 +57,32 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	  }
 	  
 	  
-	  
+	  protected int[] Calcular2() {		  
+			int[] resposta = new int[2];			
+	            double total=0;
+	            for(String[] linha : listaDeHam) {                
+	                for(String regra:linha) {    	
+	                	if(mapa.containsKey(regra)) {
+	                		total+=mapa.get(regra);
+	                	}
+	                }               
+		                if(total>5.0) {
+		                	resposta[0]= resposta[0]+1;
+		                			                }                
+		                total=0;
+	            }
+	            for(String[] linha : listaDeSpam) {                
+	                for(String regra:linha) {
+	                	if(mapa.containsKey(regra)) {
+	                		total+=mapa.get(regra);
+	                	}
+	                }                             
+		                if(total<5.0) {
+		                	resposta[1]= resposta[1]+1;
+		                }                
+	                total=0;
+	            }              
+			return resposta;
+		}
 	}
+
