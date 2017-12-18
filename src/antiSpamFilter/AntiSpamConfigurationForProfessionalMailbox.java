@@ -85,4 +85,3 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 			return resposta;
 		}
 	}
-

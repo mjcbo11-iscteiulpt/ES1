@@ -152,7 +152,7 @@ public class GraphicalInterface{
 		//criar lista de Pesos Nao Editaveis
 		listaDePesosNaoEditaveis = new DefaultListModel();
 		
-		//Passar para a lista o que est· no ficheiro
+		//Passar para a lista o que est√° no ficheiro
 		ReadFile(caminhoRules.getText(),inicio);
 		inicio=false;
 
@@ -186,7 +186,7 @@ public class GraphicalInterface{
 		// criar vetor com os nomes das colunas da TableModel
 		Object[] nome = {"Regras","Pesos"};
 		
-		//criar TableModel com pesos edit·veis
+		//criar TableModel com pesos edit√°veis
 		model = new DefaultTableModel(matrizPreTabela,nome) {
 			boolean[] canEdit = new boolean[]{
                     false,true
@@ -210,8 +210,8 @@ public class GraphicalInterface{
 	
 	
 	private void adicionarCoisas() {
-		painelDePaineis.add("Pesos Edit·veis", painelDeColunas);
-		painelDePaineis.add("Pesos N„o Editaveis", painelDeColunasNaoEditaveis);		
+		painelDePaineis.add("Pesos Edit√°veis", painelDeColunas);
+		painelDePaineis.add("Pesos N√£o Editaveis", painelDeColunasNaoEditaveis);		
 		painelCF.add(labelCaminhoRules);
 		painelCF.add(caminhoRules);
 		painelSpam.add(labelCaminhoSpam);
@@ -273,8 +273,20 @@ public class GraphicalInterface{
 	
 	private void gerarListener() {
 		gerar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
+			public void actionPerformed(ActionEvent e) {
+				
 				JMetal = new AntiSpamFilterAutomaticConfiguration(listaDeRegras.getSize(),listaDeHam,listaDeSpam,listaDeRegras);
+				String[] vetorPesosOptimo = LerFicheiroDePesosOptimizados();
+				try {
+					PesosParaFicheiro(vetorPesosOptimo);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}					
+				criarListasModelo();
+				adicionarListasModelo();
+				adicionarNaInterface();
+				JTableListener();
+				
 			}
 		});	
 	}
@@ -335,7 +347,44 @@ public class GraphicalInterface{
 	}
 
 	
-	
+	protected void PesosParaFicheiro(String[] pesos) throws IOException {			    
+		Locale currentLocale=Locale.getDefault();
+		DecimalFormatSymbols nf = new DecimalFormatSymbols(currentLocale);
+		nf.setDecimalSeparator('.');
+		nf.setGroupingSeparator(',');
+		DecimalFormat df = new DecimalFormat("0.0",nf);	
+		try {
+		BufferedReader bufRdr = new BufferedReader(new FileReader(caminhoRules.getText()));
+		PrintWriter writer = new PrintWriter("rules2.cf", "UTF-8");
+		String line="",newline="";
+		String[] splited;
+		int contador=0;
+			while((line = bufRdr.readLine()) != null){
+				double a = Double.parseDouble(pesos[contador]);
+				String f = df.format(a);
+				
+				if((splited = line.split("\\s+")).length<2) {					
+				    newline = line +" "+ f;				   
+				}else {
+					splited = line.split("\\s+");					
+					newline = splited[0] +" "+ f;				    
+				}				
+				writer.write(newline);
+			    writer.println();
+			    contador++;
+				}
+			writer.close();
+			bufRdr.close();
+				File ficheiroAEliminar = new File(caminhoRules.getText());
+				ficheiroAEliminar.delete();
+				ficheiroAEliminar = new File("rules2.cf");
+				File ficheiroNovo = new File(caminhoRules.getText());
+				ficheiroAEliminar.renameTo(ficheiroNovo);
+				} catch (IOException r) {
+						r.printStackTrace();
+		}
+		System.out.println("Done");			
+	}
 
 	
 	protected int Calcular(DefaultListModel<String> listaDeRegras2, DefaultListModel<String> listaDePesos2, String ficheiro) {		
@@ -438,7 +487,7 @@ public class GraphicalInterface{
             }            
         } catch(Exception e) {
             listaDeRegras.removeAllElements();
-            listaDeRegras.addElement("Este caminho n„o Existe!!!");
+            listaDeRegras.addElement("Este caminho n√£o Existe!!!");
             listaDePesos.addElement(" ");
             listaDePesosNaoEditaveis.addElement(" ");
         } finally {
@@ -463,7 +512,55 @@ public class GraphicalInterface{
 	}
 
 	
-	
+	private String[] LerFicheiroDePesosOptimizados(){
+		FileReader fr = null;
+        BufferedReader br = null;
+        String nomeFicheiro = "VAR0.tsv";
+        ArrayList<String[]> listaDosVetoresDePesos= new ArrayList<String[]>();
+        int FileIndex=0;
+        try {
+            fr = new FileReader ("experimentBaseDirectory/AntiSpamStudy/data/NSGAII/AntiSpamFilterProblemForProfessionalMailbox/"+nomeFicheiro);
+            br = new BufferedReader(fr); 
+            
+            String line;
+            String[] lineSPlitted;
+            double[] stringToDouble;
+            while((line=br.readLine())!=null) {
+            	lineSPlitted=line.split("\\s+");
+            	listaDosVetoresDePesos.add(lineSPlitted);
+            	
+            }  
+            nomeFicheiro = "FUN0.tsv";
+            fr = new FileReader ("experimentBaseDirectory/AntiSpamStudy/data/NSGAII/AntiSpamFilterProblemForProfessionalMailbox/"+nomeFicheiro);
+            br = new BufferedReader(fr);
+            double soma=0;
+            double actual;
+            int contador=0;
+            while((line=br.readLine())!=null) {
+            	lineSPlitted=line.split("\\s+");
+            	actual =Double.parseDouble(lineSPlitted[0])+Double.parseDouble(lineSPlitted[1]);
+            	if(soma==0) {
+            		soma+=actual;
+            		FileIndex=contador;
+            	}else if(actual<soma) {            		
+            		soma=actual;
+            		FileIndex=contador;
+            	}
+            	contador++;
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if( null != fr ) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return listaDosVetoresDePesos.get(FileIndex);		
+	}
 		
 
 	
@@ -472,4 +569,3 @@ public class GraphicalInterface{
 	}
 	
 }
-

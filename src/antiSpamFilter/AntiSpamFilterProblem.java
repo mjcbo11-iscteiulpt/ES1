@@ -42,4 +42,3 @@ public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 	    solution.setObjective(1, x[1]);
 	  }
 	}
-
