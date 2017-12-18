@@ -70,6 +70,7 @@ public class GraphicalInterface{
 	JTable TabelaPesosNaoEditaveis;	
 	ArrayList<String[]> listaDeHam;
 	ArrayList<String[]> listaDeSpam;
+	AntiSpamFilterAutomaticConfiguration JMetal;	
 	Boolean inicio=true;
 	
 	
@@ -151,7 +152,7 @@ public class GraphicalInterface{
 		//criar lista de Pesos Nao Editaveis
 		listaDePesosNaoEditaveis = new DefaultListModel();
 		
-		//Passar para a lista o que est√° no ficheiro
+		//Passar para a lista o que est· no ficheiro
 		ReadFile(caminhoRules.getText(),inicio);
 		inicio=false;
 
@@ -185,7 +186,7 @@ public class GraphicalInterface{
 		// criar vetor com os nomes das colunas da TableModel
 		Object[] nome = {"Regras","Pesos"};
 		
-		//criar TableModel com pesos edit√°veis
+		//criar TableModel com pesos edit·veis
 		model = new DefaultTableModel(matrizPreTabela,nome) {
 			boolean[] canEdit = new boolean[]{
                     false,true
@@ -209,8 +210,8 @@ public class GraphicalInterface{
 	
 	
 	private void adicionarCoisas() {
-		painelDePaineis.add("Pesos Edit√°veis", painelDeColunas);
-		painelDePaineis.add("Pesos N√£o Editaveis", painelDeColunasNaoEditaveis);		
+		painelDePaineis.add("Pesos Edit·veis", painelDeColunas);
+		painelDePaineis.add("Pesos N„o Editaveis", painelDeColunasNaoEditaveis);		
 		painelCF.add(labelCaminhoRules);
 		painelCF.add(caminhoRules);
 		painelSpam.add(labelCaminhoSpam);
@@ -246,6 +247,7 @@ public class GraphicalInterface{
 	private void AdicionarListeners() {
 		textFieldListeners();
 		labelsListener();
+		gerarListener();
 		JTableListener();
 		
 	}
@@ -264,6 +266,19 @@ public class GraphicalInterface{
 			}
 		});		
 	}
+	
+	
+	
+	
+	
+	private void gerarListener() {
+		gerar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				JMetal = new AntiSpamFilterAutomaticConfiguration(listaDeRegras.getSize(),listaDeHam,listaDeSpam,listaDeRegras);
+			}
+		});	
+	}
+	
 	
 	private void JTableListener() {
 		TabelaPesosEditaveis.getModel().addTableModelListener(new TableModelListener() {
@@ -423,7 +438,7 @@ public class GraphicalInterface{
             }            
         } catch(Exception e) {
             listaDeRegras.removeAllElements();
-            listaDeRegras.addElement("Este caminho n√£o Existe!!!");
+            listaDeRegras.addElement("Este caminho n„o Existe!!!");
             listaDePesos.addElement(" ");
             listaDePesosNaoEditaveis.addElement(" ");
         } finally {
