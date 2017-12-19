@@ -8,7 +8,16 @@ import javax.swing.DefaultListModel;
 
 import org.uma.jmetal.solution.DoubleSolution;
 
-
+/**
+ * @author Miguel  Bento nº69515 Lei Pl
+ * 
+ * @author Daniel Fernando nº72756 Lei Pl
+ * 
+ * @author João Nuno nº73304
+ * 
+ * @author Ricardo Lopes nº73384
+ *
+ */
 
 public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterProblem {
 	
@@ -18,6 +27,14 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	HashMap<String,Double> mapa;
 
 
+	/**
+	 * Método Construtor que cria um AntiSpamConfigurationForProfessionalMailbox
+	 * 
+	 * @param numberOfVariables
+	 * @param listaDeHam
+	 * @param listaDeSpam
+	 * @param listaDeRegras
+	 */
 	  public AntiSpamConfigurationForProfessionalMailbox(Integer numberOfVariables,ArrayList<String[]> listaDeHam,ArrayList<String[]> listaDeSpam,DefaultListModel listaDeRegras) {
 		super(numberOfVariables);
 		this.listaDeHam=listaDeHam;
@@ -41,7 +58,9 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	    setUpperLimit(upperLimit);
 	  }
 
-	  
+	  /**
+	   * Método evaluate modificado
+	   */
 	  @Override
 	  public void evaluate(DoubleSolution solution){ 
 	    
@@ -56,7 +75,12 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	    solution.setObjective(1, resposta[1]);
 	  }
 	  
-	  
+	  /**
+	   * Método que calcula os FN e FP os retorna atravez de um array de inteiro que vai
+	   * ser usado no método evaluate
+	   * 
+	   * @return
+	   */
 	  protected int[] Calcular2() {		  
 			int[] resposta = new int[2];			
 	            double total=0;
