@@ -65,6 +65,7 @@ public class GraphicalInterface{
 	JLabel labelFP ;
 	JLabel labelFN;
 	JButton gerar ;
+	JButton save;
 	DefaultListModel<String> listaDeRegras ;
 	DefaultListModel<String> listaDePesos ;
 	DefaultListModel<String> listaDePesosNaoEditaveis ;
@@ -120,6 +121,7 @@ public class GraphicalInterface{
 	private void criarBotoes() {
 		calculo = new JButton("Calcular");		
 		gerar = new JButton("Gerar");
+		save = new JButton("SAVE");
 
 	}
 	
@@ -176,7 +178,7 @@ public class GraphicalInterface{
 		//criar lista de Pesos Nao Editaveis
 		listaDePesosNaoEditaveis = new DefaultListModel();
 		
-		//Passar para a lista o que est√° no ficheiro
+		//Passar para a lista o que est· no ficheiro
 		ReadFile(caminhoRules.getText(),inicio);
 		inicio=false;
 
@@ -210,7 +212,7 @@ public class GraphicalInterface{
 		// criar vetor com os nomes das colunas da TableModel
 		Object[] nome = {"Regras","Pesos"};
 		
-		//criar TableModel com pesos edit√°veis
+		//criar TableModel com pesos edit·veis
 		model = new DefaultTableModel(matrizPreTabela,nome) {
 			boolean[] canEdit = new boolean[]{
                     false,true
@@ -234,8 +236,8 @@ public class GraphicalInterface{
 	
 	
 	private void adicionarCoisas() {
-		painelDePaineis.add("Pesos Edit√°veis", painelDeColunas);
-		painelDePaineis.add("Pesos N√£o Editaveis", painelDeColunasNaoEditaveis);		
+		painelDePaineis.add("Pesos Edit·veis", painelDeColunas);
+		painelDePaineis.add("Pesos N„o Editaveis", painelDeColunasNaoEditaveis);		
 		painelCF.add(labelCaminhoRules);
 		painelCF.add(caminhoRules);
 		painelSpam.add(labelCaminhoSpam);
@@ -249,6 +251,7 @@ public class GraphicalInterface{
 		painelDeBotoes.add(labelFP);
 		painelDeBotoes.add(labelFN);
 		painelDeBotoes.add(gerar);
+		painelDeBotoes.add(save);
 		frame.add(painelDePaineis,BorderLayout.CENTER);
 		frame.add(painelDeCaminhos, BorderLayout.NORTH);
 		frame.add(painelDeBotoes, BorderLayout.SOUTH);
@@ -272,6 +275,7 @@ public class GraphicalInterface{
 		textFieldListeners();
 		labelsListener();
 		gerarListener();
+		saveListener();
 		JTableListener();
 		
 	}
@@ -302,7 +306,29 @@ public class GraphicalInterface{
 	}
 	
 	
-	
+	private void saveListener() {
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+				try {
+				String[] pesos=new String[listaDePesos.getSize()];
+				if(painelDePaineis.getSelectedIndex()==0) {
+					for(int i=0;i<listaDePesos.getSize();i++) {
+						pesos[i]=listaDePesos.getElementAt(i);
+					}
+    			}else {
+    				for(int i=0;i<listaDePesosNaoEditaveis.getSize();i++) {
+						pesos[i]=listaDePesosNaoEditaveis.getElementAt(i);
+					}
+    			}
+					PesosParaFicheiro(pesos);
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});		
+	}
 	
 	
 	private void gerarListener() {
@@ -544,7 +570,7 @@ public class GraphicalInterface{
             }            
         } catch(Exception e) {
             listaDeRegras.removeAllElements();
-            listaDeRegras.addElement("Este caminho n√£o Existe!!!");
+            listaDeRegras.addElement("Este caminho n„o Existe!!!");
             listaDePesos.addElement(" ");
             listaDePesosNaoEditaveis.addElement(" ");
         } finally {
