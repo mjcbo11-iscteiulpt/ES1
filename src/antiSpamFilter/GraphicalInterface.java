@@ -41,6 +41,9 @@ import javax.swing.table.DefaultTableModel;
 import org.uma.jmetal.solution.DoubleSolution;
 
 
+
+
+
 public class GraphicalInterface{
 	
 	JFrame frame ;
@@ -134,11 +137,32 @@ public class GraphicalInterface{
 		caminhoRules = new JTextField("rules.cf");
 		caminhoSpam = new JTextField("spam.log");
 		caminhoHam = new JTextField("ham.log");
+		VerificarFicheiros();
 
 	}
 	
 	
-	
+	private void VerificarFicheiros() {
+		File file = new File(caminhoRules.getText());		
+		if(file.exists()) {
+			caminhoRules.setBackground(new Color(165,255,165));
+		}else {
+			caminhoRules.setBackground(new Color(255,183,183));
+		}
+		file = new File(caminhoSpam.getText());
+		if(file.exists()) {
+			caminhoSpam.setBackground(new Color(165,255,165));
+		}else {
+			caminhoSpam.setBackground(new Color(255,183,183));
+		}
+		file = new File(caminhoHam.getText());
+		if(file.exists()) {
+			caminhoHam.setBackground(new Color(165,255,165));
+		}else {
+			caminhoHam.setBackground(new Color(255,183,183));
+		}
+	}
+
 	
 	private void criarListasModelo() {
 		System.out.println("criar Listas Modelo");
@@ -254,15 +278,25 @@ public class GraphicalInterface{
 	
 	
 	private void textFieldListeners() {
-		caminhoRulesListener();				
+		caminhoRulesListener();
+		caminhoHamListener();
+		caminhoSpamListener();		
 	}
 	
 	
 	private void labelsListener() {
 		calculo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
+			public void actionPerformed(ActionEvent e) {
+				File spamFile = new File(caminhoSpam.getText());
+				File hamFile = new File(caminhoHam.getText());
+
+				if(listaDeRegras.getSize()>1 && spamFile.exists() && hamFile.exists()) {
 				labelFN.setText("FN = "+Calcular(listaDeRegras,listaDePesos,caminhoHam.getText()));
-				labelFP.setText("FP = "+Calcular(listaDeRegras,listaDePesos,caminhoSpam.getText()));				
+				labelFP.setText("FP = "+Calcular(listaDeRegras,listaDePesos,caminhoSpam.getText()));
+				}else {
+					labelFN.setText("Inexistente");
+					labelFP.setText("Ficheiro");
+				}
 			}
 		});		
 	}
@@ -274,7 +308,10 @@ public class GraphicalInterface{
 	private void gerarListener() {
 		gerar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				File spamFile = new File(caminhoSpam.getText());
+				File hamFile = new File(caminhoHam.getText());
+
+				if(listaDeRegras.getSize()>1 && spamFile.exists() && hamFile.exists()) {
 				JMetal = new AntiSpamFilterAutomaticConfiguration(listaDeRegras.getSize(),listaDeHam,listaDeSpam,listaDeRegras);
 				String[] vetorPesosOptimo = LerFicheiroDePesosOptimizados();
 				try {
@@ -286,7 +323,10 @@ public class GraphicalInterface{
 				adicionarListasModelo();
 				adicionarNaInterface();
 				JTableListener();
-				
+				}else {
+					labelFN.setText("Inexistente");
+					labelFP.setText("Ficheiro");
+				}
 			}
 		});	
 	}
@@ -442,6 +482,22 @@ public class GraphicalInterface{
 	}
 	
 	
+	private void caminhoSpamListener() {
+		caminhoSpam.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VerificarFicheiros();				
+			}
+		});		
+	}
+
+	
+	private void caminhoHamListener() {
+		caminhoHam.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VerificarFicheiros();
+			}
+		});		
+	}
 
 	
 	private void caminhoRulesListener() {
@@ -449,6 +505,7 @@ public class GraphicalInterface{
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Caminho CF mudado para "+"\""+caminhoRules.getText()+"\"");	
 				inicio=true;
+				VerificarFicheiros();
 				criarListasModelo();
 				adicionarListasModelo();
 				adicionarNaInterface();
