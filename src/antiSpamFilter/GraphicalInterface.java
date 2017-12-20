@@ -393,12 +393,18 @@ public class GraphicalInterface{
 				if(listaDeRegras.getSize()>1 && spamFile.exists() && hamFile.exists()) {
 				JMetal = new AntiSpamFilterAutomaticConfiguration(listaDeRegras.getSize(),listaDeHam,listaDeSpam,listaDeRegras);
 				String[] vetorPesosOptimo = LerFicheiroDePesosOptimizados();
-				try {
-					PesosParaFicheiro(vetorPesosOptimo);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}					
-				criarListasModelo();
+				
+				listaDePesosNaoEditaveis.removeAllElements();
+				for(int i=0;i<vetorPesosOptimo.length;i++) {
+					listaDePesosNaoEditaveis.add(i,vetorPesosOptimo[i]);
+				}
+				
+//				try {
+//					PesosParaFicheiro(vetorPesosOptimo);
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}					
+//				criarListasModelo();
 				adicionarListasModelo();
 				adicionarNaInterface();
 				JTableListener();
@@ -481,11 +487,11 @@ public class GraphicalInterface{
 	 * @throws IOException
 	 */
 	protected void PesosParaFicheiro(String[] pesos) throws IOException {			    
-		Locale currentLocale=Locale.getDefault();
-		DecimalFormatSymbols nf = new DecimalFormatSymbols(currentLocale);
-		nf.setDecimalSeparator('.');
-		nf.setGroupingSeparator(',');
-		DecimalFormat df = new DecimalFormat("0.0",nf);	
+//		Locale currentLocale=Locale.getDefault();
+//		DecimalFormatSymbols nf = new DecimalFormatSymbols(currentLocale);
+//		nf.setDecimalSeparator('.');
+//		nf.setGroupingSeparator(',');
+//		DecimalFormat df = new DecimalFormat("0.0",nf);	
 		try {
 		BufferedReader bufRdr = new BufferedReader(new FileReader(caminhoRules.getText()));
 		PrintWriter writer = new PrintWriter("rules2.cf", "UTF-8");
@@ -494,13 +500,13 @@ public class GraphicalInterface{
 		int contador=0;
 			while((line = bufRdr.readLine()) != null){
 				double a = Double.parseDouble(pesos[contador]);
-				String f = df.format(a);
+				//String f = df.format(a);
 				
 				if((splited = line.split("\\s+")).length<2) {					
-				    newline = line +" "+ f;				   
+				    newline = line +" "+ a;				   
 				}else {
 					splited = line.split("\\s+");					
-					newline = splited[0] +" "+ f;				    
+					newline = splited[0] +" "+ a;				    
 				}				
 				writer.write(newline);
 			    writer.println();
