@@ -687,11 +687,10 @@ public class GraphicalInterface{
 	private String[] LerFicheiroDePesosOptimizados(){
 		FileReader fr = null;
         BufferedReader br = null;
-        String nomeFicheiro = "VAR0.tsv";
         ArrayList<String[]> listaDosVetoresDePesos= new ArrayList<String[]>();
         int FileIndex=0;
         try {
-            fr = new FileReader ("experimentBaseDirectory/AntiSpamStudy/data/NSGAII/AntiSpamFilterProblemForProfessionalMailbox/"+nomeFicheiro);
+            fr = new FileReader ("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblemForProfessionalMailbox.rs");
             br = new BufferedReader(fr); 
             
             String line;
@@ -700,10 +699,9 @@ public class GraphicalInterface{
             while((line=br.readLine())!=null) {
             	lineSPlitted=line.split("\\s+");
             	listaDosVetoresDePesos.add(lineSPlitted);
-//            	
             }  
-            nomeFicheiro = "FUN0.tsv";
-            fr = new FileReader ("experimentBaseDirectory/AntiSpamStudy/data/NSGAII/AntiSpamFilterProblemForProfessionalMailbox/"+nomeFicheiro);
+            fr = new FileReader ("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblemForProfessionalMailbox.rf");
+
             br = new BufferedReader(fr);
             double soma=0;
             double actual;
@@ -720,7 +718,6 @@ public class GraphicalInterface{
             	}
             	contador++;
             }
-          //  return listaDosVetoresDePesos.get(FileIndex);
         } catch(Exception e) {
             e.printStackTrace();
         } finally {

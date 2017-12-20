@@ -24,7 +24,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 
 public class AntiSpamFilterAutomaticConfiguration {
-  private  final int INDEPENDENT_RUNS = 1 ;
+  private  final int INDEPENDENT_RUNS = 3 ;
  
 
   public AntiSpamFilterAutomaticConfiguration(Integer numberOfVariables,ArrayList<String[]> listaDeHam,ArrayList<String[]> listaDeSpam,DefaultListModel listaDeRegras) {
@@ -72,7 +72,7 @@ public class AntiSpamFilterAutomaticConfiguration {
               problemList.get(i).getProblem(),
               new SBXCrossover(1.0, 5),
               new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
-              .setMaxEvaluations(3000)
+              .setMaxEvaluations(1000)
               .setPopulationSize(100)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));

@@ -10,15 +10,14 @@ import org.uma.jmetal.solution.DoubleSolution;
 
 /**
  * @author Miguel  Bento n�69515 Lei Pl
- * 
+ *
  * @author Daniel Fernando n�72756 Lei Pl
- * 
+ *
  * @author Jo�o Nuno n�73304
- * 
+ *
  * @author Ricardo Lopes n�73384
  *
  */
-
 public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterProblem {
 	
 	ArrayList<String[]> listaDeHam;
