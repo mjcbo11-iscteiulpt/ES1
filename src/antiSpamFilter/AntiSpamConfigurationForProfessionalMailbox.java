@@ -67,8 +67,7 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	      mapa.put((String)listaDeRegras.getElementAt(i), solution.getVariableValue(i));
 	    }
 	    
-	    int[] resposta = Calcular2();	    
-	    
+	    int[] resposta = Calcular2();		    
 	    
 	    solution.setObjective(0, resposta[0]);
 	    solution.setObjective(1, resposta[1]);
@@ -81,7 +80,7 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	   * @return
 	   */
 	  protected int[] Calcular2() {		  
-			int[] resposta = new int[2];			
+			int[] resposta = new int[2];
 	            double total=0;
 	            for(String[] linha : listaDeHam) {                
 	                for(String regra:linha) {    	

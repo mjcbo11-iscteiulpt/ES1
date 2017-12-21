@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class AplicacoesExternas {
 	
 	public AplicacoesExternas() {
-//		PdfLatex();
+		PdfLatex();
 		HvBoxplotR();
 	}
 	

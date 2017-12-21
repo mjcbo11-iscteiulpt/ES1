@@ -61,13 +61,11 @@ public class GraphicalInterface{
 	JPanel painelDeCaminhos;
 	JPanel painelDeBotoes ;
 	JTabbedPane painelDePaineis ;
-	JPanel painelCF ;
 	JTextField caminhoRules ;
 	JLabel labelCaminhoRules ;
-	JPanel painelSpam ;
 	JLabel labelCaminhoSpam ;
 	JTextField caminhoSpam ;
-	JPanel painelHam ;
+	
 	JLabel labelCaminhoHam;
 	JTextField caminhoHam ;
 	JButton calculo ;		
@@ -86,6 +84,7 @@ public class GraphicalInterface{
 	AntiSpamFilterAutomaticConfiguration JMetal;	
 	Boolean inicio=true;
 	AplicacoesExternas aplicaçoes;
+	FileChooser chooser;
 	
 	/**
 	 * Construtor que vai abrir a interface gráfica
@@ -93,7 +92,8 @@ public class GraphicalInterface{
 	 * as JTextFields
 	 * 	 
 	 */	
-	public GraphicalInterface() {		
+	public GraphicalInterface() {
+		EscolherFicheiros();
 		AbrirInterface();
 		AdicionarListeners();		
 		CarregarFicheiro(caminhoHam.getText(),listaDeHam);
@@ -101,6 +101,17 @@ public class GraphicalInterface{
 		
 	}
 	
+	private void EscolherFicheiros() {
+		criarTextFields();
+		chooser = new FileChooser("cf","Selecione o ficheiro rules");
+		caminhoRules.setText(chooser.getPath());
+		chooser = new FileChooser("log","Selecione o ficheiro Ham");
+		caminhoHam.setText(chooser.getPath());
+		chooser = new FileChooser("log","Selecione o ficheiro Spam");
+		caminhoSpam.setText(chooser.getPath());
+
+	}
+
 	/**
 	 * Metodo que cria a Frame, os Paineis, botões,Labels,TextFields e ListasModelo.	 * 
 	 */	
@@ -109,7 +120,7 @@ public class GraphicalInterface{
 		criarPaineis();
 		criarBotoes();
 		criarLabels();
-		criarTextFields();
+		//criarTextFields();
 		criarListasModelo();
 		adicionarListasModelo();
 		adicionarCoisas();
@@ -131,10 +142,7 @@ public class GraphicalInterface{
 		painelDeColunasNaoEditaveis = new JPanel();
 		painelDeCaminhos = new JPanel();
 		painelDeBotoes = new JPanel();		
-		painelDePaineis = new JTabbedPane();
-		painelCF = new JPanel();
-		painelSpam = new JPanel();
-		painelHam = new JPanel();		
+		painelDePaineis = new JTabbedPane();				
 		definirLayouts();		
 	}
 	
@@ -152,9 +160,9 @@ public class GraphicalInterface{
 	 * Método que inicializa as Lebels da interface.
 	 */
 	private void criarLabels() {
-		labelCaminhoRules = new JLabel("Caminho rules file =>");
-		labelCaminhoSpam = new JLabel("Caminho Spam file =>");
-		labelCaminhoHam = new JLabel("Caminho Ham file =>");
+		labelCaminhoRules = new JLabel("Caminho rules file ");
+		labelCaminhoSpam = new JLabel("Caminho Spam file ");
+		labelCaminhoHam = new JLabel("Caminho Ham file ");
 		labelFP = new JLabel("Label FP");
 		labelFN = new JLabel("Label FN");
 	}
@@ -164,10 +172,10 @@ public class GraphicalInterface{
 	 * e verifica se os mesmos existem.
 	 */
 	private void criarTextFields() {
-		caminhoRules = new JTextField("rules.cf");
-		caminhoSpam = new JTextField("spam.log");
-		caminhoHam = new JTextField("ham.log");
-		VerificarFicheiros();
+		caminhoRules = new JTextField(/*"rules.cf"*/);
+		caminhoSpam = new JTextField(/*"spam.log"*/);
+		caminhoHam = new JTextField(/*"ham.log"*/);
+		//VerificarFicheiros();
 
 	}
 	
@@ -235,20 +243,20 @@ public class GraphicalInterface{
 		}
 		
 		//criar matriz com os 2 vetores
-		String[][] matrizPreTabela = new String[pesos.length][2];
-		String[][] matrizPreTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
+		String[][] matrizPréTabela = new String[pesos.length][2];
+		String[][] matrizPréTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
 		for(int i = 0; i< pesos.length;i++) {
-			matrizPreTabela[i][0]=regras[i];
-			matrizPreTabela[i][1]=pesos[i];
-			matrizPreTabelaNaoEditavel[i][0]=regras[i];
-			matrizPreTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
+			matrizPréTabela[i][0]=regras[i];
+			matrizPréTabela[i][1]=pesos[i];
+			matrizPréTabelaNaoEditavel[i][0]=regras[i];
+			matrizPréTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
 		}
 		
 		// criar vetor com os nomes das colunas da TableModel
 		Object[] nome = {"Regras","Pesos"};
 		
 		//criar TableModel com pesos editáveis
-		model = new DefaultTableModel(matrizPreTabela,nome) {
+		model = new DefaultTableModel(matrizPréTabela,nome) {
 			boolean[] canEdit = new boolean[]{
                     false,true
             };
@@ -262,7 +270,7 @@ public class GraphicalInterface{
 		TabelaPesosEditaveis.setBackground(new Color(165,255,165));
 		
 		//criar segunda JTable para pesos nao editaveis
-		TabelaPesosNaoEditaveis = new JTable(matrizPreTabelaNaoEditavel,nome);
+		TabelaPesosNaoEditaveis = new JTable(matrizPréTabelaNaoEditavel,nome);
 		TabelaPesosNaoEditaveis.setDefaultEditor(Object.class,null);
 		//adicionar cor vermelha ao fundo
 		TabelaPesosNaoEditaveis.setBackground(new Color(255,183,183));
@@ -275,15 +283,14 @@ public class GraphicalInterface{
 	private void adicionarCoisas() {
 		painelDePaineis.add("Pesos Editáveis", painelDeColunas);
 		painelDePaineis.add("Pesos Não Editaveis", painelDeColunasNaoEditaveis);		
-		painelCF.add(labelCaminhoRules);
-		painelCF.add(caminhoRules);
-		painelSpam.add(labelCaminhoSpam);
-		painelSpam.add(caminhoSpam);
-		painelHam.add(labelCaminhoHam);
-		painelHam.add(caminhoHam);
-		painelDeCaminhos.add(painelCF);
-		painelDeCaminhos.add(painelSpam);
-		painelDeCaminhos.add(painelHam);
+
+		painelDeCaminhos.add(labelCaminhoRules);
+		painelDeCaminhos.add(labelCaminhoHam);
+		painelDeCaminhos.add(labelCaminhoSpam);
+		painelDeCaminhos.add(caminhoRules);
+		painelDeCaminhos.add(caminhoHam);
+		painelDeCaminhos.add(caminhoSpam);
+
 		painelDeBotoes.add(calculo);
 		painelDeBotoes.add(labelFP);
 		painelDeBotoes.add(labelFN);
@@ -680,7 +687,7 @@ public class GraphicalInterface{
 	 */
 	private void definirLayouts() {
 		frame.setLayout(new BorderLayout());
-		painelDeCaminhos.setLayout(new GridLayout(1,3,20,10));
+		painelDeCaminhos.setLayout(new GridLayout(2,3,30,10));
 		painelDeBotoes.setLayout(new FlowLayout(FlowLayout.CENTER,60,20));
 		painelDeColunas.setLayout(new GridLayout(1,1));
 		painelDeColunasNaoEditaveis.setLayout(new GridLayout(1,1));		
