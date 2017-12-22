@@ -346,8 +346,8 @@ public class GraphicalInterface{
 				File hamFile = new File(caminhoHam.getText());
 
 				if(listaDeRegras.getSize()>1 && spamFile.exists() && hamFile.exists()) {
-				labelFN.setText("FN = "+Calcular(listaDeRegras,listaDePesos,caminhoHam.getText()));
-				labelFP.setText("FP = "+Calcular(listaDeRegras,listaDePesos,caminhoSpam.getText()));
+				labelFP.setText("FP = "+Calcular(listaDeRegras,listaDePesos,caminhoHam.getText()));
+				labelFN.setText("FN = "+Calcular(listaDeRegras,listaDePesos,caminhoSpam.getText()));
 				}else {
 					labelFN.setText("Inexistente");
 					labelFP.setText("Ficheiro");
@@ -504,7 +504,7 @@ public class GraphicalInterface{
 
 	/**
 	 * Metodo que passa o vetor de pesos optimos gerado pelo JMetal para o ficheiro "rules.cf"
-	 * @param pesos
+	 * @param array de pesos
 	 * @throws IOException
 	 */
 	public void PesosParaFicheiro(String[] pesos) throws IOException {	  
@@ -725,16 +725,20 @@ public class GraphicalInterface{
             int contador=0;
             while((line=br.readLine())!=null) {
             	lineSPlitted=line.split("\\s+");
-            	double[] actual = {Double.parseDouble(lineSPlitted[0]),Double.parseDouble(lineSPlitted[1])};            	
+            	double[] actual = {Double.parseDouble(lineSPlitted[0]),Double.parseDouble(lineSPlitted[1])};
+            	System.out.println("Actual[0] = "+actual[0]+" e actual [1] = "+actual[1]);           	
             	if(contador==0) {
+            		System.out.println("1 condicao");
             		menor=actual[0];
             		FN=actual[1];
             		FileIndex=contador;
-            	}else if(actual[0]<menor) {            		
+            	}else if(actual[0]<menor) {     
+            		System.out.println("2 condicao");
             		menor=actual[0];
             		FN=actual[1];
             		FileIndex=contador;
             	}else if(actual[0]==menor && actual[1]<FN) {
+            		System.out.println("3 condicao");
             		menor=actual[0];
             		FN=actual[1];
             		FileIndex=contador;
