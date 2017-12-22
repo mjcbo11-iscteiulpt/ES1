@@ -53,7 +53,12 @@ public class AntiSpamFilterAutomaticConfiguration {
     
     try {
 		new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();
-		new ComputeQualityIndicators<>(experiment).run() ;
+		
+		
+	// Comentando esta linha ele ja nao vai dar erro porque ja nao tenta calcular a media.
+	//	new ComputeQualityIndicators<>(experiment).run() ;
+		
+		
 		new GenerateLatexTablesWithStatistics(experiment).run() ;
 		new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run() ;
 	} catch (IOException e) {

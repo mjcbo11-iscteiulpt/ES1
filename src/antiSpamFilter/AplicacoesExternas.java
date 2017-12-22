@@ -34,28 +34,18 @@ public class AplicacoesExternas {
 
 	private void HvBoxplotR(){	
 		try {
-			Runtime.getRuntime().exec("Rscript experimentBaseDirectory/AntiSpamStudy/R/HV.Boxplot.R");
+		ProcessBuilder builder = new ProcessBuilder( "Rscript","HV.Boxplot.R");
+		builder.directory( new File( "experimentBaseDirectory/AntiSpamStudy/R" ).getAbsoluteFile() ); // this is where you set the root folder for the executable to run with
+		builder.redirectErrorStream(true);
+			Process process =  builder.start();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+		System.out.println("Grafico criado!");		
+		}
+	
 		
-		//		Process process;
-//		try {
-//
-//			process = new ProcessBuilder(
-//					"Rscript","HV.Boxplot.R").start();
-//			InputStream is = process.getInputStream();
-//			InputStreamReader isr = new InputStreamReader(is);
-//			BufferedReader br = new BufferedReader(isr);
-//			String line;
-//			while ((line = br.readLine()) != null) {
-//				System.out.println(line);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		}
 	}
 	
+

@@ -42,13 +42,13 @@ import org.uma.jmetal.solution.DoubleSolution;
 
 
 /**
- * @author Miguel  Bento n�69515 Lei Pl
+ * @author Miguel  Bento nº69515 Lei Pl
  *
- * @author Daniel Fernando n�72756 Lei Pl
+ * @author Daniel Fernando nº72756 Lei Pl
  *
- * @author Jo�o Nuno n�73304
+ * @author João Nuno nº73304
  *
- * @author Ricardo Lopes n�73384
+ * @author Ricardo Lopes nº73384
  *
  */
 
