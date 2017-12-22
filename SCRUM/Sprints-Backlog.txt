@@ -1,0 +1,31 @@
+Primeiro Sprint
+
+- (17/12/2017) Criar Interface Gráfica
+- (17/12/2017) Criar Listas e Tabelas de Pesos e Regras
+- (17/12/2017) Criar métodos para Ler os 3 ficheiros e passá-los para Listas
+- (17/12/2017) Criar método para calcular os FN , FP e um Listener da Tabela
+- (18/12/2017) Alterar classe "AutomaticConfiguration" . Criar botao de gerar
+- (18/12/2017) Criar classe SpamFilter para ProfessionaMailbox
+- (18/12/2017) Criar método de calculo de FN e FP para usar no Evaluate
+- (18/12/2017) Adicionar Listener ao botão gerar
+- (19/12/2017) Método para verificar os caminhos dos ficheiros
+- (19/12/2017) Criação do botão Save
+
+Segundo Sprint
+
+- (20/12/2017) Gerar documentos Javadoc
+- (20/12/2017) Criacao da Classe Aplicações Externas
+- (20/12/2017) Alteração de ficheiros Fun e Var para referenceFronts
+- (20/12/2017) Alteraçoes no botao gerar e nos pesos
+- (21/12/2017) Classe JFileChooser e implementacao
+- (21/12/2017) Gerar Pesos Aleatorios
+- (21/12/2017) Aplicações Externas com o programa R
+- (21/12/2017) Gerar Tabela , Gráfico e Diagrama de Classes
+
+Terceiro Sprint
+
+- (22/12/2017) Testes JUnit e novos JavaDoc
+- (22/12/2017) Relatório de Cobertura de Testes (EclEmma)
+- (22/12/2017) Code Inspection Reports
+- (22/12/2017) ULTIMO COMMIT - tag
+- (22/12/2017) Criação de um video
