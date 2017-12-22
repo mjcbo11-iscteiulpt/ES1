@@ -2,6 +2,7 @@ package antiSpamFilter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -23,7 +24,7 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	ArrayList<String[]> listaDeHam;
 	ArrayList<String[]> listaDeSpam;
 	DefaultListModel listaDeRegras ;
-	HashMap<String,Double> mapa;
+	LinkedHashMap<String,Double> mapa;
 
 
 	/**
@@ -39,7 +40,7 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 		this.listaDeHam=listaDeHam;
 		this.listaDeSpam=listaDeSpam;
 		this.listaDeRegras=listaDeRegras;
-		mapa = new HashMap<String,Double>();
+		mapa = new LinkedHashMap<String,Double>();
 		setNumberOfVariables(numberOfVariables);
 	    setNumberOfObjectives(2);
 	    setName("AntiSpamFilterProblemForProfessionalMailbox");
