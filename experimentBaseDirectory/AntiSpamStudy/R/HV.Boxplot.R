@@ -14,4 +14,4 @@ title(main=titulo)
 }
 par(mfrow=c(1,1))
 indicator<-"HV"
-qIndicator(indicator, "AntiSpamFilterProblem")
+qIndicator(indicator, "AntiSpamFilterProblemForProfessionalMailbox")

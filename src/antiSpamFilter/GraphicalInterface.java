@@ -42,52 +42,51 @@ import org.uma.jmetal.solution.DoubleSolution;
 
 
 /**
- * @author Miguel  Bento nº69515 Lei Pl
+ * @author Miguel  Bento n69515 Lei Pl
  *
- * @author Daniel Fernando nº72756 Lei Pl
+ * @author Daniel Fernando n72756 Lei Pl
  *
- * @author João Nuno nº73304
+ * @author Joao Nuno n73304
  *
- * @author Ricardo Lopes nº73384
+ * @author Ricardo Lopes n73384
  *
  */
 
 
 public class GraphicalInterface{
 	
-	JFrame frame ;
-	JPanel painelDeColunas ;
-	JPanel painelDeColunasNaoEditaveis ;
-	JPanel painelDeCaminhos;
-	JPanel painelDeBotoes ;
-	JTabbedPane painelDePaineis ;
-	JTextField caminhoRules ;
-	JLabel labelCaminhoRules ;
-	JLabel labelCaminhoSpam ;
-	JTextField caminhoSpam ;
-	
-	JLabel labelCaminhoHam;
-	JTextField caminhoHam ;
-	JButton calculo ;		
-	JLabel labelFP ;
-	JLabel labelFN;
-	JButton gerar ;
-	JButton save;
-	DefaultListModel<String> listaDeRegras ;
-	DefaultListModel<String> listaDePesos ;
-	DefaultListModel<String> listaDePesosNaoEditaveis ;
-	DefaultTableModel model;
-	JTable TabelaPesosEditaveis;
-	JTable TabelaPesosNaoEditaveis;	
-	ArrayList<String[]> listaDeHam;
-	ArrayList<String[]> listaDeSpam;
-	AntiSpamFilterAutomaticConfiguration JMetal;	
-	Boolean inicio=true;
-	AplicacoesExternas aplicaçoes;
-	FileChooser chooser;
+	protected JFrame frame ;
+	protected JPanel painelDeColunas ;
+	protected JPanel painelDeColunasNaoEditaveis ;
+	protected JPanel painelDeCaminhos;
+	protected JPanel painelDeBotoes ;
+	protected JTabbedPane painelDePaineis ;
+	protected JTextField caminhoRules ;
+	protected JLabel labelCaminhoRules ;
+	protected JLabel labelCaminhoSpam ;
+	protected JTextField caminhoSpam ;	
+	protected JLabel labelCaminhoHam;
+	protected JTextField caminhoHam ;
+	protected JButton calculo ;		
+	protected JLabel labelFP ;
+	protected JLabel labelFN;
+	protected JButton gerar ;
+	protected JButton save;
+	protected DefaultListModel<String> listaDeRegras ;
+	protected DefaultListModel<String> listaDePesos ;
+	protected DefaultListModel<String> listaDePesosNaoEditaveis ;
+	protected DefaultTableModel model;
+	protected JTable TabelaPesosEditaveis;
+	protected JTable TabelaPesosNaoEditaveis;	
+	protected ArrayList<String[]> listaDeHam;
+	protected ArrayList<String[]> listaDeSpam;
+	protected AntiSpamFilterAutomaticConfiguration JMetal;	
+	protected Boolean inicio=true;
+	protected AplicacoesExternas aplicacoes;
+	protected FileChooser chooser;
 	
 	/**
-	 * Construtor que vai abrir a interface gráfica
+	 * Construtor que vai abrir a interface grafica
 	 * adicionar os listeners e carregar os ficheiros Spam e Ham para 
 	 * as JTextFields
 	 * 	 
@@ -101,6 +100,9 @@ public class GraphicalInterface{
 		
 	}
 	
+	/**
+	 * Metodo que cria as TextFields e os FileChoosers
+	 */
 	private void EscolherFicheiros() {
 		criarTextFields();
 		chooser = new FileChooser("cf","Selecione o ficheiro rules");
@@ -120,7 +122,6 @@ public class GraphicalInterface{
 		criarPaineis();
 		criarBotoes();
 		criarLabels();
-		//criarTextFields();
 		criarListasModelo();
 		adicionarListasModelo();
 		adicionarCoisas();
@@ -128,14 +129,14 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método que inicializa a JFrame
+	 * Metodo que inicializa a JFrame
 	 */
 	private void criarFrame() {
 		frame = new JFrame("AntiSpamFilterForProfessionalMailbox");		
 	}
 	
 	/**
-	 * Método que inicializa os JPanels da interface e define os layouts
+	 * Metodo que inicializa os JPanels da interface e define os layouts
 	 */
 	private void criarPaineis() {
 		painelDeColunas = new JPanel();
@@ -147,7 +148,7 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método que inicializa os 3 Botões da interface.
+	 * Metodo que inicializa os 3 Botões da interface.
 	 */
 	private void criarBotoes() {
 		calculo = new JButton("Calcular");		
@@ -157,7 +158,7 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método que inicializa as Lebels da interface.
+	 * Metodo que inicializa as Lebels da interface.
 	 */
 	private void criarLabels() {
 		labelCaminhoRules = new JLabel("Caminho rules file ");
@@ -168,19 +169,17 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método que inicializa as JTextFields com os caminhos para os 3 ficheiros
+	 * Metodo que inicializa as JTextFields com os caminhos para os 3 ficheiros
 	 * e verifica se os mesmos existem.
 	 */
 	private void criarTextFields() {
-		caminhoRules = new JTextField(/*"rules.cf"*/);
-		caminhoSpam = new JTextField(/*"spam.log"*/);
-		caminhoHam = new JTextField(/*"ham.log"*/);
-		//VerificarFicheiros();
-
+		caminhoRules = new JTextField();
+		caminhoSpam = new JTextField();
+		caminhoHam = new JTextField();
 	}
 	
 	/**
-	 * Método que verifica se o caminho dos 3 ficheiros é valido e preenche com cor 
+	 * Metodo que verifica se o caminho dos 3 ficheiros e valido e preenche com cor 
 	 * verde ou vermelha.
 	 */
 	private void VerificarFicheiros() {
@@ -205,10 +204,9 @@ public class GraphicalInterface{
 	}
 
 	/**
-	 * Método que inicializa as ListModels
+	 * Metodo que inicializa as ListModels
 	 */
 	private void criarListasModelo() {
-		System.out.println("criar Listas Modelo");
 		//criar lista de Regras
 		listaDeRegras = new DefaultListModel();
 				
@@ -219,17 +217,16 @@ public class GraphicalInterface{
 		//criar lista de Pesos Nao Editaveis
 		listaDePesosNaoEditaveis = new DefaultListModel();
 		
-		//Passar para a lista o que está no ficheiro
+		//Passar para a lista o que esta no ficheiro
 		ReadFile(caminhoRules.getText(),inicio);
 		inicio=false;
 
 	}
 	
 	/**
-	 * Método que preenche as ModelLists e JTables
+	 * Metodo que preenche as ModelLists e JTables
 	 */
-	private void adicionarListasModelo() {
-		System.out.println("adicionar Listas Modelo");
+	public void adicionarListasModelo() {
 		//criar vetores que vao guardar regras e pesos
 		String[] pesos = new String[listaDePesos.getSize()];
 		String[] regras = new String[listaDeRegras.getSize()];
@@ -243,11 +240,11 @@ public class GraphicalInterface{
 		}
 		
 		//criar matriz com os 2 vetores
-		String[][] matrizPreTabela = new String[pesos.length][2];
+		String[][] matrizPreabela = new String[pesos.length][2];
 		String[][] matrizPreTabelaNaoEditavel = new String[pesosNaoEditaveis.length][2];
 		for(int i = 0; i< pesos.length;i++) {
-			matrizPreTabela[i][0]=regras[i];
-			matrizPreTabela[i][1]=pesos[i];
+			matrizPreabela[i][0]=regras[i];
+			matrizPreabela[i][1]=pesos[i];
 			matrizPreTabelaNaoEditavel[i][0]=regras[i];
 			matrizPreTabelaNaoEditavel[i][1]=pesosNaoEditaveis[i];
 		}
@@ -255,8 +252,8 @@ public class GraphicalInterface{
 		// criar vetor com os nomes das colunas da TableModel
 		Object[] nome = {"Regras","Pesos"};
 		
-		//criar TableModel com pesos editáveis
-		model = new DefaultTableModel(matrizPreTabela,nome) {
+		//criar TableModel com pesos editaveis
+		model = new DefaultTableModel(matrizPreabela,nome) {
 			boolean[] canEdit = new boolean[]{
                     false,true
             };
@@ -278,10 +275,10 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método que adiciona Componentes aos Paineis
+	 * Metodo que adiciona Componentes aos Paineis
 	 */
 	private void adicionarCoisas() {
-		painelDePaineis.add("Pesos Editáveis", painelDeColunas);
+		painelDePaineis.add("Pesos Editaveis", painelDeColunas);
 		painelDePaineis.add("Pesos Não Editaveis", painelDeColunasNaoEditaveis);		
 
 		painelDeCaminhos.add(labelCaminhoRules);
@@ -308,7 +305,7 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método para tornar a interface visivel
+	 * Metodo para tornar a interface visivel
 	 */
 	private void setVisible() {
 		frame.setSize(800,400);
@@ -318,7 +315,7 @@ public class GraphicalInterface{
 	}
 
 	/**
-	 * Método que cria os ActionListeners
+	 * Metodo que cria os ActionListeners
 	 */
 	private void AdicionarListeners() {
 		textFieldListeners();
@@ -330,7 +327,7 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método que cria os Listeners dos JTextFields
+	 * Metodo que cria os Listeners dos JTextFields
 	 */
 	private void textFieldListeners() {
 		caminhoRulesListener();
@@ -339,10 +336,10 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método Listener do botão "Calculo" que vai activar o calculo dos FN e FP
+	 * Metodo Listener do botão "Calculo" que vai activar o calculo dos FN e FP
 	 * da lista de email no caso de os 3 ficheiros serem validos
 	 */
-	private void labelsListener() {
+	public void labelsListener() {
 		calculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File spamFile = new File(caminhoSpam.getText());
@@ -360,10 +357,10 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método Listener do botão "Save" que vai guardar no ficheiro "rules.cf" os pesos
+	 * Metodo Listener do botão "Save" que vai guardar no ficheiro "rules.cf" os pesos
 	 * das regras da JTable que se encontra selecionada
 	 */
-	private void saveListener() {
+	public void saveListener() {
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
 				try {
@@ -388,10 +385,10 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método Listener do botao "gerar" que vai correr o algoritmo NSGAII atravez do JMetal
+	 * Metodo Listener do botao "gerar" que vai correr o algoritmo NSGAII atravez do JMetal
 	 * e adicionar o resultado Optimo na JTable de valores nao editaveis
 	 */
-	private void gerarListener() {
+	public void gerarListener() {
 		gerar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File spamFile = new File(caminhoSpam.getText());
@@ -406,17 +403,11 @@ public class GraphicalInterface{
 				for(int i=0;i<vetorPesosOptimo.length;i++) {
 					listaDePesosNaoEditaveis.add(i,vetorPesosOptimo[i]);
 				}
-				
-//				try {
-//					PesosParaFicheiro(vetorPesosOptimo);
-//				} catch (IOException e1) {
-//					e1.printStackTrace();
-//				}					
-//				criarListasModelo();
+
 				adicionarListasModelo();
 				adicionarNaInterface();
 				JTableListener();
-				aplicaçoes = new AplicacoesExternas();
+				aplicacoes = new AplicacoesExternas();
 					}else {
 						String[] vetorPesosAleatorio=GerarPesosAleatorios();
 						listaDePesos.removeAllElements();
@@ -435,7 +426,11 @@ public class GraphicalInterface{
 		});	
 	}
 	
-	protected String[] GerarPesosAleatorios(){
+	/**
+	 * Metodo que gera Pesos Aleatorios na Tabela Editavel
+	 * @return
+	 */
+	public String[] GerarPesosAleatorios(){
 		String[] vetorDePesosALeatorio = new String[335];
 		Random random = new Random();
 		for(int i=0;i<vetorDePesosALeatorio.length;i++) {
@@ -446,12 +441,11 @@ public class GraphicalInterface{
 		
 	}
 	/**
-	 * Método Listener da JTableEditavel  que actualiza a ListModel de Pesos editaveis
+	 * Metodo Listener da JTableEditavel  que actualiza a ListModel de Pesos editaveis
 	 */
-	private void JTableListener() {
+	public void JTableListener() {
 		TabelaPesosEditaveis.getModel().addTableModelListener(new TableModelListener() {
 			public void tableChanged(TableModelEvent e) {
-				System.out.println("Entrou");
 				int row=TabelaPesosEditaveis.getSelectedRow();
 				String value=(String)TabelaPesosEditaveis.getValueAt(row, 1);
 				listaDePesos.set(row, value);
@@ -460,7 +454,7 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método que vai ler os ficheiros "ham" e "spam" e adiciona-os a uma Lista de Vectores de Regras
+	 * Metodo que vai ler os ficheiros "ham" e "spam" e adiciona-os a uma Lista de Vectores de Regras
 	 * 
 	 * @param file
 	 * @param lista
@@ -494,10 +488,9 @@ public class GraphicalInterface{
         }
 	
 	/**
-	 * Método que vai actualizar a interface quando as Tablas se alteram
+	 * Metodo que vai actualizar a interface quando as Tablas se alteram
 	 */
-	protected void adicionarNaInterface() {
-		System.out.println("Adicionar na Interface");
+	public void adicionarNaInterface() {
 		//adicionar JTable ao painel
 		painelDeColunasNaoEditaveis.removeAll();
 		painelDeColunasNaoEditaveis.add(new JScrollPane(TabelaPesosNaoEditaveis));
@@ -510,16 +503,12 @@ public class GraphicalInterface{
 	}
 
 	/**
-	 * Método que passa o vetor de pesos optimos gerado pelo JMetal para o ficheiro "rules.cf"
+	 * Metodo que passa o vetor de pesos optimos gerado pelo JMetal para o ficheiro "rules.cf"
 	 * @param pesos
 	 * @throws IOException
 	 */
-	protected void PesosParaFicheiro(String[] pesos) throws IOException {			    
-//		Locale currentLocale=Locale.getDefault();
-//		DecimalFormatSymbols nf = new DecimalFormatSymbols(currentLocale);
-//		nf.setDecimalSeparator('.');
-//		nf.setGroupingSeparator(',');
-//		DecimalFormat df = new DecimalFormat("0.0",nf);	
+	public void PesosParaFicheiro(String[] pesos) throws IOException {	  
+
 		try {
 		BufferedReader bufRdr = new BufferedReader(new FileReader(caminhoRules.getText()));
 		PrintWriter writer = new PrintWriter("rules2.cf", "UTF-8");
@@ -527,9 +516,7 @@ public class GraphicalInterface{
 		String[] splited;
 		int contador=0;
 			while((line = bufRdr.readLine()) != null){
-				double a = Double.parseDouble(pesos[contador]);
-				//String f = df.format(a);
-				
+				double a = Double.parseDouble(pesos[contador]);				
 				if((splited = line.split("\\s+")).length<2) {					
 				    newline = line +" "+ a;				   
 				}else {
@@ -550,17 +537,16 @@ public class GraphicalInterface{
 				} catch (IOException r) {
 						r.printStackTrace();
 		}
-		System.out.println("Done");			
 	}
 
 	/**
-	 * Método que calcula os FP e FN da JTable selecionada e retorna-os num array
+	 * Metodo que calcula os FP e FN da JTable selecionada e retorna-os num array
 	 * @param listaDeRegras2
 	 * @param listaDePesos2
 	 * @param ficheiro
 	 * @return
 	 */
-	protected int Calcular(DefaultListModel<String> listaDeRegras2, DefaultListModel<String> listaDePesos2, String ficheiro) {		
+	public int Calcular(DefaultListModel<String> listaDeRegras2, DefaultListModel<String> listaDePesos2, String ficheiro) {		
 		FileReader fr = null;
         BufferedReader br = null;
         int Falsos=0;        
@@ -590,12 +576,10 @@ public class GraphicalInterface{
                 if(ficheiro.equals(caminhoHam.getText())) {
 	                if(total>5.0) {
 	                	Falsos++;
-//	                	System.out.println("mais um ponto "+total);
 	                }
                 }else if(ficheiro.equals(caminhoSpam.getText())) {
                 	if(total<5.0) {
 	                	Falsos++;
-//	                	System.out.println("mais um ponto "+total);
 	                }
                 }
                 total=0;
@@ -615,9 +599,9 @@ public class GraphicalInterface{
 	}
 	
 	/**
-	 * Método Listener da JTextField Spam que verifica se o caminho é valido
+	 * Metodo Listener da JTextField Spam que verifica se o caminho e valido
 	 */
-	private void caminhoSpamListener() {
+	public void caminhoSpamListener() {
 		caminhoSpam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VerificarFicheiros();				
@@ -626,9 +610,9 @@ public class GraphicalInterface{
 	}
 
 	/**
-	 * Método Listener da JTextField Ham que verifica se o caminho é valido
+	 * Metodo Listener da JTextField Ham que verifica se o caminho e valido
 	 */
-	private void caminhoHamListener() {
+	public void caminhoHamListener() {
 		caminhoHam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VerificarFicheiros();
@@ -637,13 +621,12 @@ public class GraphicalInterface{
 	}
 
 	/**
-	 * Método Listener da JTextField Rules que verifica se o caminho é valido, e se for
+	 * Metodo Listener da JTextField Rules que verifica se o caminho e valido, e se for
 	 * actualiza as tabelas
 	 */
-	private void caminhoRulesListener() {
+	public void caminhoRulesListener() {
 		caminhoRules.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Caminho CF mudado para "+"\""+caminhoRules.getText()+"\"");	
 				inicio=true;
 				VerificarFicheiros();
 				criarListasModelo();
@@ -654,7 +637,7 @@ public class GraphicalInterface{
 	}
 
 	/**
-	 * Método que vai ler o ficheiro "rules.cf" e atribuir as regras e os pesos (se existirem) ás tabelas
+	 * Metodo que vai ler o ficheiro "rules.cf" e atribuir as regras e os pesos (se existirem) as tabelas
 	 * @param ficheiro
 	 * @param inicio
 	 */
@@ -704,7 +687,7 @@ public class GraphicalInterface{
 	}
 
 	/**
-	 * Método que vai definir os layouts da frame e dos paineis
+	 * Metodo que vai definir os layouts da frame e dos paineis
 	 */
 	private void definirLayouts() {
 		frame.setLayout(new BorderLayout());
@@ -715,7 +698,7 @@ public class GraphicalInterface{
 	}
 
 	/**
-	 * Método que vai Ler o ficheiro de pesos optimizados e retorna-o num array de strings
+	 * Metodo que vai Ler o ficheiro de pesos optimizados e retorna-o num array de strings
 	 * @return
 	 */
 	private String[] LerFicheiroDePesosOptimizados(){
@@ -737,17 +720,23 @@ public class GraphicalInterface{
             fr = new FileReader ("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblemForProfessionalMailbox.rf");
 
             br = new BufferedReader(fr);
-            double soma=0;
-            double actual;
+            double menor=0;
+            double FN=0;
             int contador=0;
             while((line=br.readLine())!=null) {
             	lineSPlitted=line.split("\\s+");
-            	actual =Double.parseDouble(lineSPlitted[0])+Double.parseDouble(lineSPlitted[1]);
-            	if(soma==0) {
-            		soma+=actual;
+            	double[] actual = {Double.parseDouble(lineSPlitted[0]),Double.parseDouble(lineSPlitted[1])};            	
+            	if(contador==0) {
+            		menor=actual[0];
+            		FN=actual[1];
             		FileIndex=contador;
-            	}else if(actual<soma) {            		
-            		soma=actual;
+            	}else if(actual[0]<menor) {            		
+            		menor=actual[0];
+            		FN=actual[1];
+            		FileIndex=contador;
+            	}else if(actual[0]==menor && actual[1]<FN) {
+            		menor=actual[0];
+            		FN=actual[1];
             		FileIndex=contador;
             	}
             	contador++;
@@ -768,7 +757,7 @@ public class GraphicalInterface{
 		
 
 	/**
-	 * Método main que inicia a interface
+	 * Metodo main que inicia a interface
 	 * @param args
 	 */
 	public static void main(String [] args){

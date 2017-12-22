@@ -10,15 +10,16 @@ import javax.swing.DefaultListModel;
 import org.uma.jmetal.solution.DoubleSolution;
 
 /**
- * @author Miguel  Bento nº69515 Lei Pl
+ * @author Miguel  Bento n69515 Lei Pl
  *
- * @author Daniel Fernando nº72756 Lei Pl
+ * @author Daniel Fernando n72756 Lei Pl
  *
- * @author João Nuno nº73304
+ * @author Joao Nuno n73304
  *
- * @author Ricardo Lopes nº73384
+ * @author Ricardo Lopes n73384
  *
  */
+
 public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterProblem {
 	
 	ArrayList<String[]> listaDeHam;
@@ -28,7 +29,7 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 
 
 	/**
-	 * Método Construtor que cria um AntiSpamConfigurationForProfessionalMailbox
+	 * Metodo Construtor que cria um AntiSpamConfigurationForProfessionalMailbox
 	 * 
 	 * @param numberOfVariables
 	 * @param listaDeHam
@@ -59,9 +60,9 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	  }
 
 	  /**
-	   * Método evaluate modificado
+	   * Metodo evaluate modificado
 	   */
-	  @Override
+	  @Override 
 	  public void evaluate(DoubleSolution solution){ 
 	    
 	    for (int i = 0; i < solution.getNumberOfVariables(); i++) {
@@ -75,7 +76,7 @@ public class AntiSpamConfigurationForProfessionalMailbox extends AntiSpamFilterP
 	  }
 	  
 	  /**
-	   * Método que calcula os FN e FP os retorna atravez de um array de inteiro que vai
+	   * Metodo que calcula os FN e FP os retorna atravez de um array de inteiro que vai
 	   * ser usado no método evaluate
 	   * 
 	   * @return

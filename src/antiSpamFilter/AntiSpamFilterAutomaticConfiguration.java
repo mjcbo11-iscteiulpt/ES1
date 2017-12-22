@@ -55,8 +55,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 		new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();
 		
 		
-	// Comentando esta linha ele ja nao vai dar erro porque ja nao tenta calcular a media.
-	//	new ComputeQualityIndicators<>(experiment).run() ;
+		new ComputeQualityIndicators<>(experiment).run() ;
 		
 		
 		new GenerateLatexTablesWithStatistics(experiment).run() ;
@@ -77,7 +76,7 @@ public class AntiSpamFilterAutomaticConfiguration {
               problemList.get(i).getProblem(),
               new SBXCrossover(1.0, 5),
               new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
-              .setMaxEvaluations(25000)
+              .setMaxEvaluations(2000)
               .setPopulationSize(100)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
