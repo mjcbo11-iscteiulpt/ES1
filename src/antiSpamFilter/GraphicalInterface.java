@@ -428,7 +428,7 @@ public class GraphicalInterface{
 	
 	/**
 	 * Metodo que gera Pesos Aleatorios na Tabela Editavel
-	 * @return
+	 * @return Devolve um array de Strings com os Pesos aleatorio entre -5 e 5
 	 */
 	public String[] GerarPesosAleatorios(){
 		String[] vetorDePesosALeatorio = new String[335];
@@ -456,8 +456,8 @@ public class GraphicalInterface{
 	/**
 	 * Metodo que vai ler os ficheiros "ham" e "spam" e adiciona-os a uma Lista de Vectores de Regras
 	 * 
-	 * @param file
-	 * @param lista
+	 * @param Ficheiro
+	 * @param Lista que vai guardar a informacao do ficheiro
 	 */
 	private void CarregarFicheiro(String file,ArrayList<String[]> lista) {
 		
@@ -544,7 +544,7 @@ public class GraphicalInterface{
 	 * @param listaDeRegras2
 	 * @param listaDePesos2
 	 * @param ficheiro
-	 * @return
+	 * @return Devolve FN ou FP 
 	 */
 	public int Calcular(DefaultListModel<String> listaDeRegras2, DefaultListModel<String> listaDePesos2, String ficheiro) {		
 		FileReader fr = null;
@@ -699,7 +699,7 @@ public class GraphicalInterface{
 
 	/**
 	 * Metodo que vai Ler o ficheiro de pesos optimizados e retorna-o num array de strings
-	 * @return
+	 * @return Devolde um array de String com os Pesos Optimos
 	 */
 	private String[] LerFicheiroDePesosOptimizados(){
 		FileReader fr = null;

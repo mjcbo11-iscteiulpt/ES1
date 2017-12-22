@@ -20,11 +20,17 @@ import java.util.Arrays;
 
 public class AplicacoesExternas {
 	
+	/**
+	 * Construtor que vai chamar os metodos que criam o latex e o R
+	 */
 	public AplicacoesExternas() {
 		PdfLatex();
 		HvBoxplotR();
 	}
 
+	/**
+	 * Metodo que vai criar o Latex
+	 */
 	public void PdfLatex() {		
 		try {
 			ProcessBuilder builder = new ProcessBuilder("pdflatex","AntiSpamStudy.tex");
@@ -37,6 +43,9 @@ public class AplicacoesExternas {
 			}	
 	}
 
+	/**
+	 * Metodo que cria o R
+	 */
 	public void HvBoxplotR(){	
 		try {
 		ProcessBuilder builder = new ProcessBuilder( "Rscript","HV.Boxplot.R");
@@ -52,3 +61,4 @@ public class AplicacoesExternas {
 		
 	}
 	
+

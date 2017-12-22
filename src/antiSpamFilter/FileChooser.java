@@ -22,6 +22,12 @@ public class FileChooser {
 	protected String titulo;
 	protected String path;
 	
+	/**
+	 * Construtor para a classe que vai implementar uma interface para escolher
+	 * os caminhos para os ficheiros
+	 * @param tipoDeFicheiro
+	 * @param titulo
+	 */
 	public FileChooser(String tipoDeFicheiro,String titulo) {
 		this.tipoDeFicheiro=tipoDeFicheiro;
 		this.titulo=titulo;
@@ -38,6 +44,10 @@ public class FileChooser {
 		    }
 	}
 	
+	/**
+	 * Metodo getPath que devolve o caminho do filechooser
+	 * @return String com o caminho
+	 */
 	public String getPath() {
 		return path;
 	}
