@@ -1,0 +1,32 @@
+﻿O que fizemos bem?
+	
+-Acabámos as tarefas nas datas certas
+	
+-Tudo funciona como é Pedido
+
+
+
+O que deviamos ter feito melhor?
+	
+-Implementação correcta de alguns métodos
+	
+-Pesquisa mais detalhada sobre a framework
+
+
+
+
+O que temos de começar a fazer?
+	
+-Testes ao código
+
+
+
+O que temos de continuar a fazer?
+	
+-Distribuição Organizada de Tarefas
+	
+-Manter uma data esperada para cada tarefa
+	
+-Fazer uma previsao do tempo de tarefa
+
+

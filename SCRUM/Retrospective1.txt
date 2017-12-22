@@ -1,0 +1,32 @@
+﻿O que fizemos bem?
+	
+-Interface Grafica
+	
+-Métodos Eficientes
+
+
+
+O que deviamos ter feito melhor?
+	
+-Organização do código
+
+
+
+
+O que temos de começar a fazer?
+	
+-Organizar melhor o código
+	
+-Comentar algumas partes do codigo para se perceberem melhor
+
+
+
+O que temos de continuar a fazer?
+	
+-Distribuição Organizada de Tarefas
+	
+-Manter uma data esperada para cada tarefa
+	
+-Fazer uma previsao do tempo de tarefa
+
+
