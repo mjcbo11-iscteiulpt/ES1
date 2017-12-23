@@ -1,0 +1,20 @@
+﻿O que fizemos bem?
+	
+-Acabámos as tarefas nas datas certas
+	
+-Testes todos concluidos
+	
+-Distribuição Organizada de Tarefas
+	
+-Manter uma data esperada para cada tarefa
+	
+-Fazer uma previsao do tempo de tarefa
+
+
+
+O que deviamos ter feito melhor?
+	
+-JUnit, apesar da coverage ser 81% podia ter sido melhor
+
+
+

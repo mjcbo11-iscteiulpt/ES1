@@ -1,9 +1,12 @@
-Identificação da turma (ex: EIC1)
+EIC1
 
-Identificação do grupo (ex: Grupo 2)
+Grupo 31
 
-Identificação do número, nome e papel de cada membro do grupo (ex: 12345, José Silva, Scrum Master)
+72756, Daniel Fernando, Scrum Master
+69515, Miguel Bento, Developer
+73384, Ricardo Lopes, Developer
+73304, Jo�o Oliveira, Quality Manager
 
-Identificação da variante do projeto desenvolvida (ex: AntiSpamConfigurationForProfessionalMailbox)
+AntiSpamConfigurationForProfessionalMailbox
 
-Link para um vídeo no youtube com a demonstração da aplicação final desenvolvida (ex: http://...)
+https://www.youtube.com/watch?v=M3ysaKWoYtw&feature=youtu.be
